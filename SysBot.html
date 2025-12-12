@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SysBot - System Services Utility</title>
+<!-- Bootstrap CSS CDN -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+/* Dark Hacker Theme */
+body {
+    background-color: #0a0a0a;
+    color: #00ff99;
+    font-family: 'Courier New', Courier, monospace;
+    line-height: 1.4;
+}
+h1, h2, h3 {
+    color: #00ff99;
+    text-shadow: 0 0 5px #00ff99;
+}
+a, a:active, a:hover {
+    text-decoration: none;
+}
+.card {
+    background-color: #111;
+    border: 1px solid #00ff99;
+    margin: 1rem 0;
+}
+.card-header {
+    background-color: #111;
+    color: #00ff99;
+    font-weight: bold;
+    cursor: pointer;
+    user-select: none;
+    text-shadow: 0 0 3px #00ff99;
+}
+.card-body {
+    background-color: #0c0c0c;
+    color: #00ff99;
+    overflow-x: auto;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0;
+}
+table th, table td {
+    border: 1px solid #00ff99;
+    padding: 0.5rem;
+    text-align: left;
+    font-size: 0.9rem;
+}
+table th {
+    background-color: #111;
+}
+table tr:nth-child(even) td {
+    background-color: #101010;
+}
+.copyable {
+    user-select: all;
+}
+pre {
+    background-color: #0c0c0c;
+    color: #00ff99;
+    padding: 1rem;
+    border: 1px solid #00ff99;
+    overflow-x: auto;
+}
+
+/* Buttons */
+.button-container {
+    margin: 1rem 0;
+}
+.btn-custom {
+    background-color: #111;
+    border: 1px solid #00ff99;
+    color: #00ff99;
+    font-weight: bold;
+    margin-right: 1rem;
+    transition: all 0.3s ease;
+}
+.btn-custom:hover {
+    color: #0a0a0a;
+    background-color: #00ff99;
+    box-shadow: 0 0 15px #00ff99, 0 0 30px #00ff99 inset;
+    text-decoration: none;
+}
+
+/* Modal */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(10,10,10,0.8);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+.modal-content {
+    background-color: #111;
+    border: 1px solid #00ff99;
+    padding: 1.5rem;
+    max-width: 80%;
+    max-height: 80%;
+    overflow-y: auto;
+    color: #00ff99;
+    font-family: monospace;
+}
+.modal-close {
+    float: right;
+    cursor: pointer;
+    color: #ff3333;
+    font-weight: bold;
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+    <div class="card">
+        <div class="card-header" onclick="toggleCardBody(this)">SysBot - System Services Utility</div>
+        <div class="card-body copyable" style="display:visible;">
+<pre>
+######## ######## ######## ######## ######## ########
+##    ## #  ##  # ##    ## #     ## ##    ## #      #
+#  ##  # #  ##  # #  ##  # #  ##  # #  ##  # ###  ###
+#    ### ##    ## #    ### #     ## #  ##  # ###  ###
+####   # ###  ### ####   # #  ##  # #  ##  # ###  ###
+#  ##  # ###  ### #  ##  # #  ##  # #  ##  # ###  ###
+##    ## ###  ### ##    ## #     ## ##    ## ###  ###
+######## ######## ######## ######## ######## ########
+          SysBot - System Services Utility
+</pre>
+        </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="button-container">
+        <a href="#" class="btn btn-custom" onclick="openDocumentation()">Documentation</a>
+        <a href="sysbot_1.0.zip" class="btn btn-custom">Download SysBot</a>
+    </div>
+
+    <!-- Modal -->
+    <div id="docModal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeDocumentation()">✖</span>
+            <pre id="docContent">Loading documentation...</pre>
+        </div>
+    </div>
+
+    <h1>SysBot - System Services Utility</h1>
+    <p>SysBot is a Linux service inspection and management tool for <strong>Linux Mint / Ubuntu 20.x</strong>.<br>It provides detailed information about enabled services, running processes, failed services, and allows for service control actions such as start, stop, enable, and restart.</p>
+
+    <div class="card">
+        <div class="card-header" onclick="toggleCardBody(this)">Menu Options</div>
+        <div class="card-body copyable" style="display:none;">
+            <table>
+                <thead>
+                    <tr><th>Option</th><th>Description</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>1</td><td>Enabled boot services</td></tr>
+                    <tr><td>2</td><td>List all systemd services</td></tr>
+                    <tr><td>3</td><td>Running (active) services</td></tr>
+                    <tr><td>4</td><td>Failed services</td></tr>
+                    <tr><td>5</td><td>Boot time blame (systemd-analyze)</td></tr>
+                    <tr><td>6</td><td>Critical chain</td></tr>
+                    <tr><td>7</td><td>SysV service list</td></tr>
+                    <tr><td>8</td><td>Login autostart apps</td></tr>
+                    <tr><td>9</td><td>Enable a service</td></tr>
+                    <tr><td>10</td><td>Disable a service</td></tr>
+                    <tr><td>11</td><td>Start a service</td></tr>
+                    <tr><td>12</td><td>Restart a service</td></tr>
+                    <tr><td>13</td><td>Stop a service</td></tr>
+                    <tr><td>14</td><td>Run SysBot as root (sudo)</td></tr>
+                    <tr><td>15</td><td>Exit</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header" onclick="toggleCardBody(this)">Service Management Commands</div>
+        <div class="card-body copyable" style="display:none;">
+            <table>
+                <thead>
+                    <tr><th>Action</th><th>Command</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Enable</td><td>systemctl enable &lt;service&gt;</td></tr>
+                    <tr><td>Disable</td><td>systemctl disable &lt;service&gt;</td></tr>
+                    <tr><td>Start</td><td>systemctl start &lt;service&gt;</td></tr>
+                    <tr><td>Stop</td><td>systemctl stop &lt;service&gt;</td></tr>
+                    <tr><td>Restart</td><td>systemctl restart &lt;service&gt;</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header" onclick="toggleCardBody(this)">Why SysBot Matters</div>
+        <div class="card-body copyable" style="display:none;">
+            <p>SysBot provides system administrators and developers with an interactive, unified interface to inspect, monitor, and manage Linux services. It is crucial for:</p>
+            <ul>
+                <li><strong>Bug Hunting:</strong> Quickly identify failing services, inspect boot times, and trace dependency chains to pinpoint root causes of system issues.</li>
+                <li><strong>Production Issue Resolution:</strong> Monitor running services and detect unexpected failures or misconfigurations in critical services impacting uptime and reliability.</li>
+                <li><strong>Network Diagnostics:</strong> Assess services that handle networking (ssh, nginx, cups, etc.) to verify availability, load, and QoS metrics.</li>
+                <li><strong>OS Fundamentals:</strong> Understand which services are enabled at boot, which are running, and which have failed to maintain system stability.</li>
+                <li><strong>OS Repair:</strong> Manage and restart services, re-enable failed components, and ensure autostart applications are correctly configured.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header" onclick="toggleCardBody(this)">Service Diagnostics Workflow</div>
+        <div class="card-body copyable" style="display:none;">
+            <p>When troubleshooting system or network problems:</p>
+            <ol>
+                <li>Check <strong>running services</strong> to verify critical processes are active.</li>
+                <li>Inspect <strong>failed services</strong> to see which components stopped unexpectedly.</li>
+                <li>Use <strong>boot blame</strong> and <strong>critical chain</strong> to analyze slow startups and dependencies.</li>
+                <li>Review <strong>SysV init services</strong> and <strong>autostart applications</strong> for legacy or user-level startup issues.</li>
+                <li>Start, stop, or restart problematic services to restore functionality.</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header" onclick="toggleCardBody(this)">OS Repair and Maintenance</div>
+        <div class="card-body copyable" style="display:none;">
+            <ul>
+                <li>Re-enable failed services to maintain boot consistency.</li>
+                <li>Ensure critical network services (ssh, apache/nginx) are running for production environments.</li>
+                <li>Audit autostart applications for unnecessary services that may slow boot or consume resources.</li>
+                <li>Use SysBot as a learning tool for understanding systemd, SysV init, and Linux service management.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header" onclick="toggleCardBody(this)">Quality of Service (QoS) and Monitoring</div>
+        <div class="card-body copyable" style="display:none;">
+            <p>SysBot can help you maintain QoS by:</p>
+            <ul>
+                <li>Ensuring network-related services (e.g., ssh, nginx, dnsmasq) are active.</li>
+                <li>Tracking failed services that may cause latency, packet loss, or downtime.</li>
+                <li>Providing historical boot time data to identify regressions after updates.</li>
+            </ul>
+        </div>
+    </div>
+
+<div class="card">
+    <div class="card-header" onclick="toggleCardBody(this)">Legal Terms & Conditions</div>
+    <div class="card-body copyable" style="display:none;">
+        <h3>Disclaimer:</h3>
+        <p>SysBot is provided as-is for educational and diagnostic purposes. By using this tool, you acknowledge the following:</p>
+        <ul>
+            <li>Monitoring and managing system services can affect system stability; use at your own risk.</li>
+            <li>Ensuring network-related services (e.g., ssh, nginx, dnsmasq) are active is the user's responsibility.</li>
+            <li>Tracking failed services may provide insight into performance issues, but does not guarantee resolution.</li>
+            <li>Historical boot time data may be used to identify regressions after updates, but analysis is advisory only.</li>
+        </ul>
+        <h3>License:</h3>
+        <p>This software is released under the MIT License:</p>
+        <pre>
+MIT License
+
+Copyright (c) 2025 Rob Seaverns (K0NxT3D)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+        </pre>
+    <pre style="text-align: center;"><a href="http://www.seaverns.com/" target="_blank">SysBot - System Services Utility - K0NxT3D</a></pre>
+
+    </div>
+</div>
+
+</div>
+
+<script>
+function toggleCardBody(header){
+    const body = header.nextElementSibling;
+    body.style.display = body.style.display === 'none' ? 'block' : 'none';
+}
+
+// Modal functions
+function openDocumentation() {
+    const modal = document.getElementById('docModal');
+    const content = document.getElementById('docContent');
+    modal.style.display = 'flex';
+
+    // Load readme.txt content
+    fetch('sysbot.txt')
+        .then(response => response.text())
+        .then(text => content.textContent = text)
+        .catch(err => content.textContent = 'Error loading documentation.');
+}
+
+function closeDocumentation() {
+    const modal = document.getElementById('docModal');
+    modal.style.display = 'none';
+}
+
+// Close modal on ESC
+document.addEventListener('keydown', function(e) {
+    if (e.key === "Escape") {
+        closeDocumentation();
+    }
+});
+</script>
+</body>
+</html>
+
+
