@@ -255,8 +255,8 @@ esac
 #  End of SysBot v1.0 Script
 #  Thank you for using SysBot for Linux system diagnostics.
 #  Author: Rob Seaverns (K0NxT3D)
-#  Project: https://github.com/VOIDCRAWLER
-# 
+#  Project: https://github.com/K0NXT3D
+#
 #   MIT License
 #   Copyright (c) 2025 Rob Seaverns (K0NxT3D)
 #
